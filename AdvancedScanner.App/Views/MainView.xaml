@@ -1,0 +1,219 @@
+<Window x:Class="AdvancedScanner.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Advanced Network Scanner Pro" Height="720" Width="1150"
+        Background="#1E1E1E" WindowStartupLocation="CenterScreen"
+        Foreground="#FFFFFF" WindowStyle="SingleBorderWindow"
+        Icon="pack://application:,,,/Assets/icono_red.ico">
+    
+    <Window.Resources>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#333333"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#007ACC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="#252526"/>
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#2D2D2D"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3E3E42"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="Foreground" Value="#00E5FF"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10,8"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#555"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height"  Value="25"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#007ACC"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="NETWORK SCANNER PRO" 
+                   FontSize="28" FontWeight="Bold" Foreground="#00E5FF" Margin="0,0,0,10"/>
+
+        <!-- Info IP Pública -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="IP Pública de la Red: " FontSize="14" Foreground="#CCCCCC" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding NetworkPublicIP}" FontSize="14" FontWeight="Bold" Foreground="#00FF00" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Panel de Controles -->
+        <StackPanel Grid.Row="2">
+            
+            <!-- Contenedor Horizontal para Botones Principales -->
+            <StackPanel Orientation="Horizontal">
+                <!-- Botón de Escaneo -->
+                <Button Content="INICIAR ESCANEO RÁPIDO" 
+                        Command="{Binding ScanCommand}" 
+                        Width="220" Height="35" 
+                        Background="#007ACC" Foreground="White" 
+                        BorderThickness="0" FontWeight="Bold" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#007ACC"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#005A9E"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Botón de Exportar -->
+                <Button Content="EXPORTAR A EXCEL (CSV)" 
+                        Command="{Binding ExportCommand}" 
+                        Width="200" Height="35" Margin="20,0,0,0"
+                        Background="#2E8B57" Foreground="White" 
+                        BorderThickness="0" FontWeight="Bold" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#2E8B57"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#238B45"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+
+            <!-- Inputs de Rango -->
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                <TextBlock Text="Rango de Escaneo:" VerticalAlignment="Center" Foreground="#AAAAAA" Margin="0,0,10,0" FontWeight="Bold"/>
+                
+                <TextBlock Text="Desde IP:" VerticalAlignment="Center" Foreground="#CCCCCC" Margin="0,0,5,0"/>
+                <TextBox Text="{Binding StartIP, UpdateSourceTrigger=PropertyChanged}" Width="120" VerticalContentAlignment="Center"/>
+                
+                <TextBlock Text="Hasta IP:" VerticalAlignment="Center" Foreground="#CCCCCC" Margin="15,0,5,0"/>
+                <TextBox Text="{Binding EndIP, UpdateSourceTrigger=PropertyChanged}" Width="120" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <!-- BARRA DE PROGRESO -->
+            <ProgressBar Height="5" Margin="0,5,0,20" 
+                         IsIndeterminate="{Binding IsScanning}" 
+                         Foreground="#00FF00" Background="#333333"/>
+        </StackPanel>
+
+        <!-- Tabla -->
+        <DataGrid Grid.Row="3" ItemsSource="{Binding Devices}" 
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  Background="#252526" GridLinesVisibility="Horizontal" 
+                  HeadersVisibility="Column" RowHeight="30" AlternationCount="2"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Local IP Address" Binding="{Binding IP}" Width="*"/>
+                <DataGridTextColumn Header="Public IP (Router)" Binding="{Binding PublicIP}" Width="*"/>
+                <DataGridTextColumn Header="Host Name" Binding="{Binding HostName}" Width="*"/>
+                <DataGridTextColumn Header="MAC Address" Binding="{Binding MACAddress}" Width="*"/>
+                
+                <DataGridTextColumn Header="Device Type" Binding="{Binding DeviceType}" Width="130">
+                     <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DeviceType}" Value="Router/AP">
+                                    <Setter Property="Foreground" Value="#FF00FF"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DeviceType}" Value="Smartphone/Tablet">
+                                    <Setter Property="Foreground" Value="#00CCFF"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DeviceType}" Value="Smart TV">
+                                    <Setter Property="Foreground" Value="#FFCC00"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Status}" Value="Online">
+                                    <Setter Property="Foreground" Value="#00FF00"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Status}" Value="Offline">
+                                    <Setter Property="Foreground" Value="#666666"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Latency" Binding="{Binding Latency}" Width="80"/>
+                
+                <DataGridTemplateColumn Header="Action" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="OPEN RDP" 
+                                    Command="{Binding DataContext.RemoteDesktopCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding}"
+                                    Width="80" Height="25" 
+                                    Background="#D9534F" Foreground="White" BorderThickness="0" 
+                                    FontWeight="Bold" FontSize="11" Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#D9534F"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#C9302C"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Firma sin el comentario que causaba error -->
+        <TextBlock Grid.Row="4" 
+                   Text="Developed by Pablo Diez" 
+                   HorizontalAlignment="Center" 
+                   FontSize="11" 
+                   Foreground="#CCCCCC"
+                   Margin="0,15,0,5" 
+                   FontStyle="Italic"/>
+
+    </Grid>
+</Window>

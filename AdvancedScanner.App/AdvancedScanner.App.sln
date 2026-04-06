@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedScanner.App", "AdvancedScanner.App.csproj", "{CF71A045-B666-BFD0-02A1-2FEDF19ED99B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF71A045-B666-BFD0-02A1-2FEDF19ED99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF71A045-B666-BFD0-02A1-2FEDF19ED99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF71A045-B666-BFD0-02A1-2FEDF19ED99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF71A045-B666-BFD0-02A1-2FEDF19ED99B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EDC76B86-2A81-46B4-B43E-F65BFDDA725B}
+	EndGlobalSection
+EndGlobal

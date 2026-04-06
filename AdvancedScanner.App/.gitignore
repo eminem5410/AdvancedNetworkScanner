@@ -1,0 +1,17 @@
+## Ignorar resultados de compilación
+bin/
+obj/
+out/
+
+## Ignorar archivos de usuario de Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Ignorar carpetas de Visual Studio
+.vs/
+
+## Ignorar librerías NuGet descargadas (opcional)
+packages/
+*.nupkg

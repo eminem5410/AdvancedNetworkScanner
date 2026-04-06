@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    
+    <!-- Icono para el archivo .exe -->
+    <ApplicationIcon>Assets\icono_red.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <!-- ESTO ES LO VITAL: Registra el icono como recurso para que XAML lo encuentre -->
+  <ItemGroup>
+    <Resource Include="Assets\icono_red.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Analyzer Include="c:\Users\pablo\.vscode\extensions\hebel.exxer-rules-vscode-1.0.1\analyzers\ExxerRules.Analyzers.dll" />
+    <Analyzer Include="c:\Users\pablo\.vscode\extensions\hebel.exxer-rules-vscode-1.0.1\analyzers\ExxerRules.CodeFixes.dll" />
+  </ItemGroup>
+</Project>
